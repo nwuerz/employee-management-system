@@ -5,18 +5,16 @@ CREATE TABLE employees(
   id INT NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(45) NULL,
   last_name VARCHAR(45) NULL,
-  title VARCHAR(20) NULL,
-  department VARCHAR(20) NULL,
-  salary INT NULL,
-  manager VARCHAR(45),
+  role_id INT NOT NULL,
+  manager_id INT NULL,
   PRIMARY KEY (id)
 );
-INSERT INTO employees (first_name, last_name, title, department, salary, manager)
-VALUES ("John", "Doe", "Sales Lead", "Sales", 100000, "Ashley Rodriguez"),
-("Mike", "Chan", "Salesperson", "Sales", 80000, "John Doe"),
-("Ashely", "Rodriguez", "Lead Engineer", "Engineering", 150000, "null"),
-("Kevin", "Tupik", "Software Engineer", "Engineering", 120000, "Ashley Rodriquez"),
-("Malia", "Brown", "Accountant", "Finance", 125000, "null"),
-("Sarah", "Lourd", "Legal Team Lead", "Legal", 250000, "null"),
-("Tom", "Allen", "Lawyer", "Legal", 190000, "Sarah Lourd"),
-("Christian", "Eckenrode", "Lead Engineer", "Engineering", 150000, "Mike Chan");
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ("John", "Doe", 7, 1),
+("Mike", "Chan", 6, 2),
+("Ashely", "Rodriguez", 2, NULL),
+("Kevin", "Tupik", 1, 1),
+("Malia", "Brown", 3, NULL),
+("Sarah", "Lourd", 5, NULL),
+("Tom", "Allen", 4, 4),
+("Christian", "Eckenrode", 2, 3);

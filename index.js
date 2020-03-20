@@ -45,9 +45,12 @@ function start() {
             case "View All Employees By Department":
                 dptView();
                 break;
-            case "View All Employees by Manager":
-                mgrView();
+            case "View All Roles":
+                viewRoles();
                 break;
+            // case "View All Employees by Manager":
+            //     mgrView();
+            //     break;
             case "Remove Employee":
                 removeEmployee();
                 break;
@@ -56,9 +59,6 @@ function start() {
                 break;
             case "Update Employee Manager":
                 updateMgr();
-                break;
-            case "View All Roles":
-                viewRoles();
                 break;
             case "Create A Role":
                 createRole();
@@ -94,9 +94,9 @@ function dptView() {
     });
 }
 
-// function mgrView() {
-
-// }
+function viewRoles() {
+    connection.query("SELECT  ")
+}
 
 // function removeEmployee() {
 
@@ -110,13 +110,9 @@ function dptView() {
 
 // }
 
-// function viewRoles() {
-
-// }
-
-function createRole() {
+// function createRole() {
     
-}
+// }
 
 // function removeRole() {
 
