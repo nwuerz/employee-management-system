@@ -42,7 +42,7 @@ function start() {
             case "View All Employees":
                 viewAll();
                 break;
-            case "View All Employees By Department":
+            case "View All Departments":
                 dptView();
                 break;
             case "View All Roles":
@@ -74,7 +74,7 @@ function start() {
 }
 
 function viewAll() {
-    connection.query("SELECT id, first_name, last_name FROM employees", function(err, res) {
+    connection.query("SELECT * FROM employees", function(err, res) {
         if (err) throw err;
         var values = res.map(function(employee){
             return [employee.id, employee.first_name, employee.last_name];
@@ -85,17 +85,23 @@ function viewAll() {
 }
 
 function dptView() {
-    connection.query("SELECT id, first_name, last_name, department FROM employees ORDER BY department", function(err, res) {
+    connection.query("SELECT * FROM department", function(err, res) {
         if (err) throw err;
-        var values = res.map(function(employee){
-            return [employee.id, employee.first_name, employee.last_name, employee.department];
+        var values = res.map(function(department){
+            return [department.id, department.department_name];
         });
-        console.table(['Id', 'First Name', 'Last Name', 'Department'], values);
+        console.table(['Id', 'Department Name'], values);
     });
 }
 
 function viewRoles() {
-    connection.query("SELECT  ")
+    connection.query("SELECT * FROM roles", (err, res) => {
+        if (err) throw err;
+        var values = res.map((roles)=>{
+            return [roles.id, roles.title, roles.salary, roles.deparment_id];
+        });
+        console.table(['Id', 'Title', 'Salary', 'Department Id'], values);
+    });
 }
 
 // function removeEmployee() {
