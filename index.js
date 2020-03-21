@@ -27,14 +27,11 @@ function start() {
                 "View All Employees",
                 "View All Departments",
                 "View All Roles",
-                "Add An Employee"
-                // "Remove Employee",
-                // "Update Employee Role",
-                // "Update Employee Manager",
-                // "View All Roles",
-                // "Create A Role",
-                // "Remove A Role",
-                // "View Department Budget"
+                "Add An Employee",
+                "Add A Role",
+                "Add A Department",
+                "Update Employee Role",
+                "Exit"
             ]
         }
     ]).then((answer) => {
@@ -49,30 +46,21 @@ function start() {
             case "View All Roles":
                 viewRoles();
                 break;
-            case "Add an Employee":
+            case "Add An Employee":
                 addEmployee();
                 break;
-            // case "View All Employees by Manager":
-            //     mgrView();
-            //     break;
-            // case "Remove Employee":
-            //     removeEmployee();
-            //     break;
-            // case "Update Employee Role":
-            //     updateRole();
-            //     break;
-            // case "Update Employee Manager":
-            //     updateMgr();
-            //     break;
-            // case "Create A Role":
-            //     createRole();
-            //     break;
-            // case "Remove A Role":
-            //     removeRole();
-            //     break;
-            // case "View Department Budget":
-            //     viewBudget();
-            //     break;
+            case "Add A Role":
+                addRole();
+                break;
+            case "Add A Department":
+               addDepartment();
+               break;
+            case "Update Employee Role":
+                updateRole();
+                break;
+            case "Exit":
+                connection.end();
+                console.log("Goodbye!")
         }
     });
 }
@@ -115,37 +103,107 @@ function addEmployee() {
         {
             type: "input",
             name: "firstName",
-            message: "What is the new employee's first name?"
+            message: "Please enter the new employee's first name."
         },
         {
             type: "input",
             name: "lastName",
-            message: "What is the new employee's last name?"
+            message: "Please enter the new employee's last name."
         },
         {
-            type: "list",
-            message: "What is the new employee's role?",
-            name: "role",
-            choices: [
-                "Software Engineer",
-                "Lead Engineer",
-                "Accountant",
-                "Lawyer",
-                "Legal Team Lead",
-                "Salesperson",
-                "Sales Lead"
-            ]
+            type: "input",
+            name: "roleId",
+            message: "Please enter the role id."
+
         },
         {
-            type: "list",
-            message: "Please assign new employee to a manager:",
+            type: "input",
             name: "manager",
+            message: "Please enter the manager id."
+        }
+    ]).then((answer)=>{
+        connection.query("INSERT INTO employees SET ?",
+        {
+            first_name: answer.firstName,
+            last_name: answer.lastName,
+            role_id: answer.roleId,
+            manager_id: answer.manager
+        });
+        console.log("Success!");
+        start();
+    });
+}
+
+function addRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "title",
+            message: "What is the new role?"
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "What is the $alary?"
+        },
+        {
+            type: "list",
+            name: "department",
+            message: "which department will this role belong to?",
             choices: [
-                "Ashley Rodriguez",
-                "John Doe",
-                "Mike Chan",
-                "Sarah Lourd"
+                "1",
+                "2",
+                "3",
+                "4"
             ]
         }
-    ]).then()
+    ]).then((answer)=>{
+        connection.query("INSERT INTO roles SET ?",
+        {
+            title: answer.title,
+            salary: answer.salary,
+            deparment_id: answer.department
+        });
+        console.log("Success!");
+        start();
+    });
+}
+
+function addDepartment() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "department",
+            message: "what department would you like to add?",
+        }
+    ]).then((answer)=>{
+        connection.query("INSERT INTO department SET ?",
+        {
+            department_name: answer.department
+        });
+        console.log("Success!");
+        start();
+    });
+}
+
+function updateRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "oldId",
+            message: "Please enter the CURRENT employee id"
+        },
+        {
+            type: "input",
+            name: "newId",
+            message: "Please input the NEW employee id."
+        }
+    ]).then((answer)=>{
+        connection.query("UPDATE employees SET role_id=? WHERE id=?",[answer.newId, answer.oldId],(err, res)=>{
+            if (err) throw err;
+            return res;
+        });
+        console.log("Success!");
+        start();
+    })
 }
